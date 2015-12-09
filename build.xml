@@ -1,0 +1,101 @@
+<!-- 
+     Call the build script with the proper environment
+
+ex.
+
+ant -Dwebapp.env=prod  - production
+ant -Dwebapp.env=dev  - development
+ 
+compile was remove install remove 
+-->
+<project name="AppBuilder" default="copy" basedir=".">
+
+	<taskdef resource="net/sf/antcontrib/antlib.xml" />
+	<property file="build.properties"/>
+	
+	<path id="classpath">
+ 		<fileset dir="${lib.dir}" includes="servlet-api.jar"/>
+        	<pathelement location="${tomcat.home}/classes"/>
+		<pathelement location="${tomcat.home}/lib/*.jar"/>
+        	<pathelement location="${lib.dir}/json-lib-2.4-jdk15.jar"/>
+        	<pathelement location="${lib.dir}/org.json.jar"/>
+        	<pathelement location="${lib.dir}/gson-1.6.jar"/>
+        	<pathelement location="${lib.dir}/org.restlet.ext.json.jar"/>
+        	<pathelement location="${lib.dir}/org.restlet.ext.servlet.jar"/>
+        	<pathelement location="${lib.dir}/org.restlet.ext.xml.jar"/>
+        	<pathelement location="${lib.dir}/org.restlet.jar"/>
+        	<pathelement location="${lib.dir}/Thumbnailator-0.3.10.jar"/>
+			<pathelement location="${lib.dir}/log4j-1.2.17.jar"/>
+			<pathelement location="${lib.dir}/djwTools.jar"/>
+        	<fileset dir="${tomcat.home}/lib">
+       		   <include name="*.jar"/>
+       		 </fileset>
+	</path>
+	
+	<target name="clean">
+		<echo>Cleaning the ${build.dir}</echo>
+		<delete dir="${build.dir}"/>
+	</target>
+
+	<target name="init" depends="clean">
+		<echo>Creating the build directory</echo>
+		<mkdir dir="${build.dir}/WEB-INF/classes"/>
+		<mkdir dir="${build.dir}/WEB-INF/lib"/>
+	</target>
+	
+	<target name="compile" depends="init">
+		<echo>Compile the source files</echo>
+		<javac srcdir="${src.dir}" destdir="${build.dir}/WEB-INF/classes" debug="on" debuglevel="lines,vars,source">
+			<classpath refid="classpath"/>
+		</javac>
+	</target>
+	
+	<target name="copy" depends="compile">
+		<copy todir="${build.dir}/WEB-INF">
+			<fileset dir="${conf.dir}"/>
+		</copy>
+		<copy todir="${build.dir}">
+			<fileset dir="${web.content}"/>
+		</copy>
+		<copy todir="${build.dir}/WEB-INF/lib">
+			<fileset dir="${lib.dir}"/>
+		</copy>
+		  <move file="${build.dir}/WEB-INF/classes/ApplicationResources.properties.${webapp.env}" tofile="${build.dir}/WEB-INF/classes/ApplicationResources.properties"/>
+		  <move file="${build.dir}/WEB-INF/classes/Config.properties.${webapp.env}" tofile="${build.dir}/WEB-INF/classes/Config.properties"/>
+		  <move file="${build.dir}/WEB-INF/classes/log4j.properties.${webapp.env}" tofile="${build.dir}/WEB-INF/classes/log4j.properties"/>
+		<move file="${build.dir}/META-INF/context.xml.${webapp.env}" tofile="${build.dir}/META-INF/context.xml"/>
+
+	</target>
+
+	<target name="war">
+		<echo>Building the war file</echo>
+		<war destfile="${dist.dir}/${project.name}.war" webxml="${build.dir}/WEB-INF/web.xml">
+			<fileset dir="${build.dir}"/>
+		</war>
+	</target>
+	
+	<taskdef name="deploy" classname="org.apache.catalina.ant.DeployTask">
+		<classpath refid="classpath"/>
+	</taskdef>
+  	<taskdef name="undeploy" classname="org.apache.catalina.ant.UndeployTask">
+		<classpath refid="classpath"/>
+	</taskdef>
+  	
+	<target name="install">
+		<deploy url="${dev.manager}"
+          username="${manager.username}"
+          password="${manager.password}"
+          path="/${webapp.name}"
+          war="${dist.dir}/${webapp.name}.war"/> 
+    </target>
+    
+    <target name="remove">
+    	<undeploy url="${dev.manager}"
+            username="${manager.username}"
+            password="${manager.password}"
+            path="/${webapp.name}"/>
+    </target>
+    
+</project>
+
+

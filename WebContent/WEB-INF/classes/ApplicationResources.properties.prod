@@ -1,0 +1,1 @@
+CONFIG_FILE_PATH=/usr/share/tomcat7/webapps/openfda-dev/WEB-INF/classes/Config.properties

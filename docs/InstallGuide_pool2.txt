@@ -1,0 +1,60 @@
+=====================================================
+
+Installation procedure for applicationRx.
+
+For WINDOWS
+
+1. Download the docker container with the pool2 submission.
+http://pool2.valador.net/18F/valador_pool2.tar
+Be sure to save it to a location on your local drive. 
+Ex: C:\Downloads\valador_pool2.tar
+
+2. Download docker for windows 
+https://github.com/boot2docker/windows-installer/releases/tag/v1.7.0
+
+3. Run the installer and accept all defaults.
+
+4. Once installed launch docker by clicking on "Boot2Docker Start" icon on the deskop.
+
+5. When the startup is complete you will be at a command prompt "$". Change to the 
+directory where the container has been downloaded.
+cd C:\Downloads
+
+6. Load the image into the docker environment.
+docker load < valador_pool2.tar  
+
+7. Get the IP address of the docker client. We will use this to actually connect to the 
+container. Type "boot2docker ip". Make note of the ip address as we will need it later.
+
+8. Type "docker images" to display the downloaded image information. The valador image 
+should be named "valador_pool2"
+
+9. Start the container by typing 
+docker run -p 80:8080 -i -t valador_pool2
+
+10. You will get a new prompt looking something like this "[root@f217f9c3ee07 /]#"  
+You are now connected to the container. To start the application type 
+./start-apprx.sh
+
+11. A few message will dispay, but when the prompt comes back the application will 
+be running.  DO NOT close the window as this will stop the container. Open an browser 
+and enter the ip address we recorded earlier. 
+
+
+The application is now running fully contained in your environment.  All functionality 
+will be available.  
+
+
+
+Stopping the container
+
+1. Type "exit" at the prompt
+
+2. type "docker ps -a". This will list all running containers. We want the CONTAINER ID 
+of the one we just exited. It shold be the only one listed. 
+
+3. Delete the container by typing "docker rm CONTAINERID".  
+
+If more than one CONTAINER ID is listed and you want to delete them as well just add them 
+to the statement. Ex: "docker rm CONTAINERID ANOTHERCONTAINERID etc.
+

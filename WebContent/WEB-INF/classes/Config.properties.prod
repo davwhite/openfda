@@ -1,0 +1,12 @@
+base_url=http://localhost:8080
+service_url=http://localhost:8080/openfda-dev/service
+json_body_indent=1
+absolute_base_path=/usr/share/tomcat7/webapps/openfda-dev/
+db_descriptor=jdbc/openfdadev
+version_file=WEB-INF/classes/version
+build_file=WEB-INF/classes/buildno
+openfda_service=http://api.fda.gov/drug
+dailymed_service=http://dailymed.nlm.nih.gov/dailymed
+pillbox_service=http://http://pillbox.nlm.nih.gov/PHP
+server_key=valador18f
+

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="/ISICore">
+    <Resource name="jdbc/openfdadev" 
+              auth="Container"
+              type="javax.sql.DataSource" 
+              username="openfdadev" 
+              password="openfdadev"
+              driverClassName="org.gjt.mm.mysql.Driver"
+	      url="jdbc:mysql://localhost/openfdadev"
+              removeAbandoned="true"
+	      removeAbandonedTimeout="30"
+	      logAbandoned="true"  	
+              maxActive="10"
+              maxIdle="3"
+              maxWait = "10000"
+              validationQuery ="show tables"
+              />
+</Context>              

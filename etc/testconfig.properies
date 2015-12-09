@@ -1,0 +1,11 @@
+server_key=valador18f
+service_url=http://localhost:8080/openfda-dev/service
+test_lookup_partial=ibu
+test_lookup_match=IBUPROFEN
+test_reaction_search=pain
+test_reaction_match=GABAPENTIN
+test_drug_search=IBUPROFEN
+test_drug_match=ANXIETY
+test_druginfo_search=IBUPROFEN
+test_druginfo_match=00653b7c-7099-487e-9a01-e89781c21323
+test_chart_search=IBUPROFEN
